@@ -1,0 +1,5 @@
+Read and write test program for Motorola modems using TCMD protocol
+
+This only covers reading and writing to the NVRAM and has only been
+tested with Motorola Droid 4 so far. Be careful with the options,
+the NVRAM seems to contain the whole modem configuration.
