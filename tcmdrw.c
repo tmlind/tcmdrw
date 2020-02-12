@@ -24,7 +24,7 @@
 
 #include <linux/tty.h>
 
-#define DEBUG	1
+#define DEBUG	0
 
 #define ARRAY_SIZE(a)		(sizeof(a) / sizeof(a[0]))
 #define TCMD_REG_MAX_OFFSET	0xfffff
