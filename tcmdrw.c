@@ -39,11 +39,6 @@ struct tcmd_data {
 	int read;
 };
 
-static int tcmd_dump_all(struct tcmd_data *d)
-{
-	return 0;
-}
-
 static int uart_init(struct tcmd_data *d, const char *port, int baudrate)
 {
 	struct termios t;
@@ -287,6 +282,19 @@ static int tcmd_nv_read_reg(struct tcmd_data *d, unsigned short offset)
 	tcmd_print_response(d, offset, d->debug);
 
 	return error;
+}
+
+static int tcmd_dump_all(struct tcmd_data *d)
+{
+	int nv_len, i;
+
+	for (i = 0; i <= TCMD_REG_MAX_OFFSET; i++) {
+		nv_len = tcmd_nv_read_reg(d, i);
+		if (nv_len <= TCMD_RESPONSE_LEN)
+			return -EINVAL;
+	}
+
+	return 0;
 }
 
 static int bytes_to_hex(const char *buf)
