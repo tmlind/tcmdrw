@@ -328,6 +328,13 @@ static int tcmd_nv_write_reg(struct tcmd_data *d, const char *val, unsigned int 
 
 	nv_len -= TCMD_RESPONSE_LEN;
 
+	/*
+	 * Quirk handling for uninialized NV value. It seems value of 08 is
+	 * is uninitialized while 07 is unavailable.
+	 */
+	 if (nv_len == 1)
+		nv_len = 129;
+
 	/* Quirk handling for extra two bytes returned by reads */
 	if (d->buf[TCMD_RESPONSE_DATA_TYPE] == TCMD_DATA_TYPE_256)
 		nv_len -= 1;
