@@ -27,7 +27,7 @@
 #define DEBUG	1
 
 #define ARRAY_SIZE(a)		(sizeof(a) / sizeof(a[0]))
-#define TCMD_REG_MAX_OFFSET	0xffff
+#define TCMD_REG_MAX_OFFSET	0xfffff
 
 struct tcmd_data {
 	const char *port;
@@ -156,12 +156,12 @@ enum tcmd_error {
 	TCMD_ERROR_NONE,
 };
 
-static void tcmd_print_response(struct tcmd_data *d, unsigned short offset,
+static void tcmd_print_response(struct tcmd_data *d, unsigned int offset,
 				int debug)
 {
 	int i, data_start;
 
-	printf("%05i:0x%04x:", offset, offset);
+	printf("%05i:0x%05x:", offset, offset);
 
 	if (debug) {
 		for (i = 0; i < d->read && i < TCMD_RESPONSE_LEN; i++)
@@ -231,7 +231,7 @@ static int tcmd_nv_read_revision(struct tcmd_data *d)
 /*
  * Command RDELEM
  */
-static int tcmd_nv_read_reg(struct tcmd_data *d, unsigned short offset)
+static int tcmd_nv_read_reg(struct tcmd_data *d, unsigned int offset)
 {
 	unsigned char cmd[] = {
 		0x00, 0x01, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00,
@@ -312,7 +312,7 @@ static int bytes_to_hex(const char *buf)
  *
  * Last header byte is size: 0x08 means 0x80 * 2 = 256 bytes
  */
-static int tcmd_nv_write_reg(struct tcmd_data *d, const char *val, unsigned short offset)
+static int tcmd_nv_write_reg(struct tcmd_data *d, const char *val, unsigned int offset)
 {
 	const unsigned char cmd_header[] = {
 		0x00, 0x01, 0x00, 0x2f, 0x00, 0x00, 0x00, 0x00,
@@ -334,7 +334,7 @@ static int tcmd_nv_write_reg(struct tcmd_data *d, const char *val, unsigned shor
 
 	vlen = strlen(val);
 	if (vlen > nv_len * 2) {
-		fprintf(stderr, "Wrong length for %05i %04x: %i vs %i\n",
+		fprintf(stderr, "Wrong length for %05i %05x: %i vs %i\n",
 			offset, offset, vlen, nv_len * 2);
 
 		return -EINVAL;
