@@ -27,7 +27,7 @@
 #define DEBUG	0
 
 #define ARRAY_SIZE(a)		(sizeof(a) / sizeof(a[0]))
-#define TCMD_REG_MAX_OFFSET	0xfffff
+#define TCMD_REG_MAX_OFFSET	70282	/* May not be correct? */
 
 struct tcmd_data {
 	const char *port;
