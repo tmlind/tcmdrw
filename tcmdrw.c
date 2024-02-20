@@ -34,7 +34,7 @@ struct tcmd_data {
 	int baudrate;
 	int fd;
 	int debug;
-	char *buf;
+	unsigned char *buf;
 	int buf_sz;
 	int read;
 };
